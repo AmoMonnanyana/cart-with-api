@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>Perfect Pizza</title>
+</head>
+<body class="text-bg-light">
+    <main x-data="pizzaCartWithAPIWidget">
+        <script src="app.js"></script>
+       <style>
+        [x-cloak] {
+            display: none
+        }
+       </style>
+
+        <h1>Perfect Pizza</h1>
+
+        <section  class=" container pizzaBox">
+            <h2>Pizza Cart</h2>
+            <label>Username:</label>
+            <input x-model="username">
+            <button x-on:click="login">Log in</button>
+            <button x-on:click="logout" x-cloak x-show="username">Logout</button>
+           <p x-show="cartId" x-cloak>Cart Id: <span x-text="cartId"></span></p>
+          <div x-cloak x-show="cartTotal > 0" x-transition> 
+            <table class="table w-50">
+                <tr>
+                    <th>Flavour</th>
+                    <th>Size</th>
+                    <th>Price</t>
+                    <th>Qty</th>
+                    <th>total</th>
+               
+                </tr>
+
+                <template x-for="pizza in cartPizzas">
+                  <tr>
+                    <td x-text="pizza.flavour"></td>
+                    <td x-text="pizza.size"></td>
+                    <td x-text="pizza.price"></td>
+                    <td>
+                        <button @click="addPizzaTocart(pizza.id)" class="m-3">+</button>
+                        <span class="m-3" x-text="pizza.qty"></span>
+                        <button @click="removePizzaFromCart(pizza.id)" class="m-3">-</button>
+                    </td> 
+                <td x-text="total=pizza.total.toFixed(2)"></td> 
+                </tr>
+                </template>
+           <tr>
+            <td coldspan="3">Total</td>
+            <td colspan="2"><span x-text="cartTotal"></span></td>
+           </tr>
+           <tr>
+            <td colspan="3">Checkout</td>
+            <td>
+                <input type="text" name="payment" x-model="paymentAmount">
+            </td>
+            <td>
+                <button x-on:click="payForCart">Pay</button>
+            </td>
+           </tr>
+            </table>
+          <div x-text= "message"></div>
+          </div>
+        </section>
+
+       
+
+            <section x-cloak class="container pizzaBox" x-show="username">
+                <h2>Pizza Options</h2>
+
+                
+                   <table class="table w-75">
+                    <template x-for="pizza in pizzas">
+                    <tbody>
+                        <tr>
+                        <td x-text="pizza.id"></td>
+                        <td><img src="pizza.png" width="100"></td>   
+                        <td x-text="pizza.flavour"></td>
+                        <td x-text="pizza.price"></td>
+                        <td x-text="pizza.size"></td>
+                        <td>
+                            <button  @click="addPizzaTocart(pizza.id)">Add to Cart</button>
+                        </td>
+                          </tr>
+                    </tbody>
+                </template>
+                   </table>
+            </section>
+    
+
+            <section class="pizzaBox container contacts">
+                <h2>Contact Details</h2>
+                <h3>Contact us at:</h3>
+                    <p class="details">Telephone: 011 340 3421</p>
+                   <p class="details">Email: info@perfectpizza.co.za</p>
+                    <p class="details">Address: 21 Pizza Plaza,Church road, Zeerust, 1860</p>
+            </section>
+      
+    </main>
+</body>
+</html>

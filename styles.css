@@ -1,0 +1,34 @@
+
+.pizzaBox {
+    border: 1px solid;
+    border-radius: 0.15em;
+    border-color: rgb(105, 103, 103);
+    padding: 0.5em;
+    margin: 1em;
+    flex: 1;
+}
+@media (min-width : 960px) {
+.box{
+    display:flex;
+}
+}
+h1 {
+    text-align: center;
+}
+.price {
+    font-weight: bolder;
+}
+img {
+    display :inline-block;
+    background-color: white;
+    padding: 0.5em;
+}
+div{
+    display: inline-flex;
+}
+
+.details {
+    /*border: 1px solid;*/
+    display:inline-block;
+    margin-right: 2em;
+}
