@@ -1,11 +1,12 @@
 
 .pizzaBox {
-    border: 1px solid;
+    border: 0px solid;
     border-radius: 0.15em;
-    border-color: rgb(105, 103, 103);
+    border-color: black;
     padding: 0.5em;
     margin: 1em;
     flex: 1;
+    background-color: rgba(136, 129, 129, 0.658);
 }
 @media (min-width : 960px) {
 .box{
@@ -20,7 +21,7 @@ h1 {
 }
 img {
     display :inline-block;
-    background-color: white;
+    background-color:  rgba(136, 129, 129, 0.658);
     padding: 0.5em;
 }
 div{
@@ -31,4 +32,14 @@ div{
     /*border: 1px solid;*/
     display:inline-block;
     margin-right: 2em;
+}
+
+body {
+    background-image: url('./pizza-3010062_1280.jpg');
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    }
+.tableColour {
+    background-color:  rgba(151, 108, 108, 0.904) ;
 }

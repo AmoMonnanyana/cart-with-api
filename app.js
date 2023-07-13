@@ -5,13 +5,14 @@ document.addEventListener('alpine:init', () => {
       username: '',
       cartId: '', 
       cartPizzas: [],
-      user: '',
+      user: false,
       cartTotal: 0.00,
       paymentAmount: 0,
       message: '',
       login (){
         if (this.username.length > 3){
           localStorage['username'] = this.username
+          this.user = true
           this.createCart();
         } else {
           alert("Username is too short!")
@@ -24,6 +25,7 @@ document.addEventListener('alpine:init', () => {
           this.cartId = '';
           localStorage['cartId'] = '';
           localStorage['username'] = '';
+          this.user = false
         }
       },
 
@@ -131,6 +133,7 @@ document.addEventListener('alpine:init', () => {
               this.cartTotal = 0.00;
               this.paymentAmount = 0;
               this.cartId = ''
+              this.username = '',
               localStorage["cartId"] = '',
               
               this.createCart();

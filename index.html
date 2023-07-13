@@ -10,7 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <title>Perfect Pizza</title>
 </head>
-<body class="text-bg-light">
+<body class="text-bg-light price">
     <main x-data="pizzaCartWithAPIWidget">
         <script src="app.js"></script>
        <style>
@@ -26,10 +26,10 @@
             <label>Username:</label>
             <input x-model="username">
             <button x-on:click="login">Log in</button>
-            <button x-on:click="logout" x-cloak x-show="username">Logout</button>
+            <button x-on:click="logout" x-cloak x-show="user">Logout</button>
            <p x-show="cartId" x-cloak>Cart Id: <span x-text="cartId"></span></p>
           <div x-cloak x-show="cartTotal > 0" x-transition> 
-            <table class="table w-50">
+            <table class=" table table-secondary w-75">
                 <tr>
                     <th>Flavour</th>
                     <th>Size</th>
@@ -53,8 +53,8 @@
                 </tr>
                 </template>
            <tr>
-            <td coldspan="3">Total</td>
-            <td colspan="2"><span x-text="cartTotal"></span></td>
+            <td coldspan="2">Total</td>
+            <td colspan="6"><span text-align="right" x-text="cartTotal"></span></td>
            </tr>
            <tr>
             <td colspan="3">Checkout</td>
@@ -62,21 +62,22 @@
                 <input type="text" name="payment" x-model="paymentAmount">
             </td>
             <td>
-                <button x-on:click="payForCart">Pay</button>
+                <button class="btn-outline-dark" x-on:click="payForCart">Pay</button>
             </td>
            </tr>
             </table>
-          <div x-text= "message"></div>
+          
           </div>
+          <p x-text= "message"></p>
         </section>
 
        
 
-            <section x-cloak class="container pizzaBox" x-show="username">
+            <section x-cloak class="container pizzaBox" x-show="username && cartId">
                 <h2>Pizza Options</h2>
 
                 
-                   <table class="table w-75">
+                   <table class="table-secondary w-75">
                     <template x-for="pizza in pizzas">
                     <tbody>
                         <tr>
