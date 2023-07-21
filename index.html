@@ -33,12 +33,13 @@
             
             <button x-on:click="login" x-show="!isLoggedIn">Log in</button>
             <button x-on:click="logout" x-cloak x-show="isLoggedIn">Logout</button>
+            
             <button type="button" class="btn btn-secondary position-relative" x-show="isLoggedIn" @click="displayCart">
                 Cart
-                <span class="position-absolute top-0 start-100 translate-middle badge  bg-danger" x-text="cartCount"></span>
+                <span class="position-absolute top-0 start-100 translate-middle badge  bg-danger" x-text="countedCarts"></span>
               </button>
-            
                 <p x-show="cartId" x-cloak>Cart Id: <span x-text="cartId"></span></p>
+                
                 <div x-cloak x-show="cartContents" x-transition>
                     <div x-show="cartTotal > 0">
                         <table class=" table table-secondary w-75">

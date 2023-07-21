@@ -13,7 +13,7 @@ GET https://pizza-api.projectcodex.net/api/pizza-cart/create?username=AmoMonnany
 
 ### Get a cart
 
-GET https://pizza-api.projectcodex.net/api/pizza-cart/nwvZiWlTh3/get
+GET https://pizza-api.projectcodex.net/api/pizza-cart/brjexBLw37/get
 
 ### Add a pizza to the cart
 
@@ -21,7 +21,7 @@ POST https://pizza-api.projectcodex.net/api/pizza-cart/add
 content-type: application/json
 
 {
-	"cart_code" : "rxX4QfqFQE",
+	"cart_code" : "brjexBLw37",
 	"pizza_id" : 6
 }
 
@@ -31,7 +31,7 @@ POST https://pizza-api.projectcodex.net/api/pizza-cart/add
 content-type: application/json
 
 {
-	"cart_code" : "rxX4QfqFQE",
+	"cart_code" : "brjexBLw37",
 	"pizza_id" : 11
 }
 

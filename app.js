@@ -13,10 +13,15 @@ document.addEventListener('alpine:init', () => {
       paymentFailed: false,
       change: 0.00,
       cartContents: false,
+      storedCart: [],
       cartCount: 0,
       isLoggedIn: false,
       payment: false,
       totalPizzas: 0,
+      countedCarts: 0,
+      cartHistory: [],
+      showHistory: false,
+      checkoutComplete: false,
 
       login() {
         if (this.username.length > 2) {
@@ -46,10 +51,15 @@ document.addEventListener('alpine:init', () => {
           this.payment = false
           this.paymentSuccessful = false
           this.paymentFailed = false
+          this.countedCarts = 0
+          this.cartCount = 0
+          this.storedCart = []
+          localStorage['cartCount'] = 0
         }
       },
       displayCart() {
         this.cartContents = !this.cartContents
+        this.showHistory = !this.showHistory
       },
       createCart() {
         const cartId = localStorage["cartId"];
@@ -70,9 +80,7 @@ document.addEventListener('alpine:init', () => {
 
       },
 
-      countingCartItems(){
-        this.cartCount = this.cartPizzas.length
-      },
+      
       
       getCart() {
         const url = `https://pizza-api.projectcodex.net/api/pizza-cart/${this.cartId}/get`
@@ -105,15 +113,27 @@ document.addEventListener('alpine:init', () => {
           //console.log(result.data);
           const cartData = result.data
           this.cartPizzas = cartData.pizzas;
-          console.log(this.cartPizzas.length);
+          console.log(this.cartPizzas);
           this.cartTotal = cartData.total.toFixed(2)
+          
           //console.log(this.cartPizzas)
         })
       },
 
+      getHistory(){
+        this.cartHistory = this.cartPizzas
+        console.log(this.cartHistory)
+      },
       init() {
+        
+            if(localStorage['cartCount']){
+              this.countedCarts = localStorage['cartCount']
+            } else {
+              this.addPizzaToStorage()
+            }
         const storedUsername = localStorage['username'];
         const storedCartId = localStorage['cartId'];
+        
         //console.log(storedUsername)
         /*
         if (storedUsername){
@@ -133,28 +153,42 @@ document.addEventListener('alpine:init', () => {
         } else {
           console.log('user not logged');
         }
-
+        
 
         // if(this.cartId){
 
         // }
 
       },
+      addPizzaToStorage(){
+        localStorage['storedCart']=this.storedCart
+        this.cartCount = this.storedCart.length
+        localStorage['cartCount'] = this.cartCount
+        this.countedCarts = localStorage['cartCount']
+        //console.log(this.cartCount)
+      },
+
       addPizzaTocart(pizzaId) {
         this.addPizza(pizzaId)
           .then(() => {
-            this.showCartData();
-            this.cartCount++
+            this.showCartData()
+            this.storedCart.push(this.cartPizzas)
+            this.addPizzaToStorage()
+            console.log(this.storedCart.length)
+            
           })
       },
+
+      
+
       removePizzaFromCart(pizzaId) {
         this.removePizza(pizzaId)
           .then(() => {
             this.showCartData();
-            if (this.cartCount > 0) {
-              this.cartCount--
-            }
-
+            this.storedCart.pop(this.cartPizzas)
+            this.addPizzaToStorage()
+            console.log(this.storedCart)
+            
           })
       },
       changeRemaining() {
@@ -178,7 +212,9 @@ document.addEventListener('alpine:init', () => {
               this.message = "Payment Successful!"
               this.paymentSuccessful = true
               this.paymentFailed = false
+              this.checkoutComplete = true
               this.changeRemaining()
+              this.getHistory()
               setTimeout(() => {
                 this.message = '';
                 this.cartPizzas = [];
@@ -193,9 +229,15 @@ document.addEventListener('alpine:init', () => {
                 this.cartCount = 0
                 this.paymentSuccessful = false
                 this.paymentFailed = false
+                this.countedCarts = 0
+                this.cartCount = 0
+                this.storedCart = []
+                localStorage['cartCount'] = 0
                 this.createCart();
               }, 3000)
+             
             }
+            
           })
       }
     }
