@@ -22,6 +22,15 @@ document.addEventListener('alpine:init', () => {
       cartHistory: [],
       showHistory: false,
       checkoutComplete: false,
+      historyUser: '',
+      eachOrderHistory: [],
+      paidPizzas : [],
+      paidTotal : 0,
+      enteredAmount: 0,
+      listOfpayments: [],
+      eachPaymentAmount: 0,
+      eachOrderAmount: 0,
+      orderList : [],
 
       login() {
         if (this.username.length > 2) {
@@ -55,11 +64,14 @@ document.addEventListener('alpine:init', () => {
           this.cartCount = 0
           this.storedCart = []
           localStorage['cartCount'] = 0
+          this.showHistory = false
+          this.orderList = []
+          this.historyUser = ''
         }
       },
       displayCart() {
         this.cartContents = !this.cartContents
-        this.showHistory = !this.showHistory
+        
       },
       createCart() {
         const cartId = localStorage["cartId"];
@@ -79,7 +91,7 @@ document.addEventListener('alpine:init', () => {
         }
 
       },
-
+      
       
       
       getCart() {
@@ -113,17 +125,13 @@ document.addEventListener('alpine:init', () => {
           //console.log(result.data);
           const cartData = result.data
           this.cartPizzas = cartData.pizzas;
-          console.log(this.cartPizzas);
+          //console.log(this.cartPizzas);
           this.cartTotal = cartData.total.toFixed(2)
           
           //console.log(this.cartPizzas)
         })
       },
 
-      getHistory(){
-        this.cartHistory = this.cartPizzas
-        console.log(this.cartHistory)
-      },
       init() {
         
             if(localStorage['cartCount']){
@@ -135,10 +143,10 @@ document.addEventListener('alpine:init', () => {
         const storedCartId = localStorage['cartId'];
         
         //console.log(storedUsername)
-        /*
+        
         if (storedUsername){
           this.username = storedUsername;
-        }*/
+        }
         axios.get('https://pizza-api.projectcodex.net/api/pizzas')
         .then((result) => {
           this.pizzas = result.data.pizzas;
@@ -151,7 +159,7 @@ document.addEventListener('alpine:init', () => {
             this.isLoggedIn = true;
           })
         } else {
-          console.log('user not logged');
+          //console.log('user not logged');
         }
         
 
@@ -174,7 +182,7 @@ document.addEventListener('alpine:init', () => {
             this.showCartData()
             this.storedCart.push(this.cartPizzas)
             this.addPizzaToStorage()
-            console.log(this.storedCart.length)
+            //console.log(this.storedCart.length)
             
           })
       },
@@ -187,7 +195,7 @@ document.addEventListener('alpine:init', () => {
             this.showCartData();
             this.storedCart.pop(this.cartPizzas)
             this.addPizzaToStorage()
-            console.log(this.storedCart)
+            //console.log(this.storedCart)
             
           })
       },
@@ -197,6 +205,27 @@ document.addEventListener('alpine:init', () => {
           this.change = (this.paymentAmount - this.cartTotal).toFixed(2)
         }
       },
+      viewHistory(){
+        this.showHistory = !this.showHistory
+      },
+      getHistory(){
+        
+        this.historyUser = this.username
+        //console.log(this.paidPizzas)
+        for(let i = 0; i < this.paidPizzas.length; i++) {
+          this.eachOrderHistory = this.paidPizzas[i]
+          this.orderList.push(this.eachOrderHistory)
+        }
+        let eachPayment = {}
+        eachPayment["eachOrderAmount" + this.eachOrderAmount] = this.paidTotal
+        eachPayment["eachPaymentAmount" + this.eachPaymentAmount] = this.enteredAmount
+
+        this.listOfpayments.push(eachPayment)
+        console.log(this.listOfpayments)
+      },
+
+      
+      
       payForCart() {
         this.pay(this.paymentAmount)
           .then(result => {
@@ -213,8 +242,14 @@ document.addEventListener('alpine:init', () => {
               this.paymentSuccessful = true
               this.paymentFailed = false
               this.checkoutComplete = true
+              this.paidPizzas = this.cartPizzas
+              this.paidTotal = this.cartTotal
+              this.enteredAmount = this.paymentAmount
+              this.eachOrderAmount = this.eachOrderAmount + 1 
+              this.eachPaymentAmount++
               this.changeRemaining()
               this.getHistory()
+              //this.getHistory()
               setTimeout(() => {
                 this.message = '';
                 this.cartPizzas = [];

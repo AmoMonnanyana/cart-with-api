@@ -23,9 +23,8 @@
         </style>
 
         <h1>Perfect Pizza</h1>
-
-        <section class=" container pizzaBox">
-            <h2>Pizza Cart</h2>
+        <section class="container pizzaBox">
+            
             <span x-show="!isLoggedIn">
             <label>Username:</label>
             <input x-model="username" >
@@ -38,8 +37,45 @@
                 Cart
                 <span class="position-absolute top-0 start-100 translate-middle badge  bg-danger" x-text="countedCarts"></span>
               </button>
+              <button @click="viewHistory">Cart History</button>
                 <p x-show="cartId" x-cloak>Cart Id: <span x-text="cartId"></span></p>
+                </section>
+
+                <section x-show="showHistory" class="container pizzaBox"> 
+                    <h2>Cart History</h2>
+                    <div x-text="'User: ' + historyUser"></div>
+                            
+                            <table class="table w-75">
+                                <thead>
+                                    <tr>
+                                        <th>Flavour</th>
+                                        <th>Size</th>
+                                        <th>Price</th>
+                                        <th>Qty</th>
+                                        <th>total</th>
+                                    </tr>
+                                </thead>
+                                  <tbody>
+                                    <template x-for="pizza in orderList">
+                                        
+                                        <tr>
+                                            <td x-text="pizza.flavour"></td>
+                                            <td x-text="pizza.size"></td>
+                                            <td x-text="pizza.price"></td>
+                                            <td x-text="pizza.qty"></td>
+                                            <td x-text="total=pizza.total.toFixed(2)"></td>
+                                           
+                                        </tr>
+                                        
+                                    </template>
+                                </tbody> 
+                                
+                            </table>
+
+                </section>
                 
+                <section class="container pizzaBox">
+                    <h2>Pizza Cart</h2>
                 <div x-cloak x-show="cartContents" x-transition>
                     <div x-show="cartTotal > 0">
                         <table class=" table table-secondary w-75">
