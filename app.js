@@ -31,6 +31,8 @@ document.addEventListener('alpine:init', () => {
       eachPaymentAmount: 0,
       eachOrderAmount: 0,
       orderList : [],
+      featuredPizzas: [],
+      
 
       login() {
         if (this.username.length > 2) {
@@ -150,6 +152,16 @@ document.addEventListener('alpine:init', () => {
         axios.get('https://pizza-api.projectcodex.net/api/pizzas')
         .then((result) => {
           this.pizzas = result.data.pizzas;
+          
+          for (let i = 0; i < this.pizzas.length; i++) {
+            if(this.pizzas[i].featured > 0){
+              this.featuredPizzas = this.pizzas[i]
+            }
+          }
+          
+          
+          //console.log(this.featuredPizzas1)
+          //console.log(this.featuredPizzas3)
         });
 
         if (storedUsername && storedCartId) {
@@ -160,8 +172,9 @@ document.addEventListener('alpine:init', () => {
           })
         } else {
           //console.log('user not logged');
-        }
         
+        
+        }
 
         // if(this.cartId){
 

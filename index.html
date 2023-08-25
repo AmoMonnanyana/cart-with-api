@@ -123,7 +123,25 @@
             <div></div>
         </section>
 
+        <section class=" container pizzaBox">
+            <h2>Featured Pizzas</h2>
+            <section x-show="isLoggedIn" class="box">
+                <Section class="pizzaBox">
+                <img src="pizza.png" width="180" align="right">
+                <h2 x-text="featuredPizzas.flavour"></h2>
+                    <p x-text="featuredPizzas.price" class=""></p>
+                   <div>
+                    <p>Small chicken and mushroom pizza with 3 toppings max. 1 or less meat toppings. 2 or less other toppings. Single cheese</p>
+                    </div><br>
+                    <button x-on:click="addPizzaTocart(featuredPizzas.id)">Buy</button>
+                </Section>
 
+            </section>
+            
+             
+
+        </section>
+        
         <template x-if="isLoggedIn">
 
             <section x-cloak class=" container pizzaBox" >
